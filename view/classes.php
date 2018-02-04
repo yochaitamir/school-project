@@ -8,55 +8,16 @@ class ListsController{
     private $studentId;
     function __construct(){
         
-        if(isset($_POST['updatstudent'])&&isset($_GET['editstudent'])){
-            echo "some"; 
-            $a=new MainController();
+        
             
-            $a->updateStudent();
-            $a->insertStudentsCourses();
-            if(isset($_FILES['imgfile'])&&!empty($_FILES['imgfile']['name'])){
-            $a->uploadProfilePic();
-            }
-            header("Location: ../view/schoolview.php?school=studentdetails&studentid=". $_SESSION['studentid']."&studentname=".$_SESSION['studentname']."'");
-    }
-            if(isset($_POST['add'])){
-                $a=new MainController();
-               $a->createStudent(); 
-                $studentArray=$a->getLastStudentDetails();
-               
-                $a->insertStudentsCourses();
-                $a->insertProfilePic($studentArray['0']);
-                header("Location: ../view/schoolview.php?school=displayNewStudent&studentid=".$studentArray['0']."&studentname=".$studentArray['1']."'");
-                
-            }
         
     }
     
     
     
     
-    function courseLists(){
-        if(isset($_GET['school'])||isset($_GET['editstudent'])){
-            $a=new MainController();
-            foreach($a->courseList() as $courses){
-                echo "<a href=../view/schoolview.php?school=coursedetails&courseid=".$courses['courseid']."&coursename=".$courses['coursename'].">".$courses['coursename']."</a><br>";
-            
-                    }
-                    }
-        
-        
-                }
-    function studentList(){
-        if(isset($_GET['school'])||isset($_GET['editstudent'])){
-            $a=new MainController();
-            foreach($a->studentsList() as $student){
-                echo "<a href=../view/schoolview.php?school=studentdetails&studentid=".$student['ID']."&studentname=".$student['studentname'].">".$student['studentname']."</a><br>";
-            
-                    }
-            
-                    }
-        
-                }
+    
+    
                 
             function studentDetails(){
                 
@@ -70,10 +31,10 @@ class ListsController{
                 ";
                 
                 $a=new BL();
-                $stu=$a->getStudentDetail($_SESSION['studentid']);
+                $stu=$a->getStudentDetail($_GET['studentid']);
                 foreach($stu as $requestedStudent){
                     $studentsimg=$requestedStudent['profilepic'];
-                    echo '
+                    echo $studentsimg.'
                     <img class="floatleft thumb-image"  src="../images/'.$studentsimg.'?'.mt_rand().'"><br>';
                     echo "<div class='space'><h3>".$requestedStudent['studentname']."</h3></div><br>";
                     echo "<br>";
@@ -137,7 +98,7 @@ class ListsController{
                
                
                
-               //echo "</div>";
+              
 
                 
                 
@@ -151,6 +112,28 @@ class ListsController{
                 
                 
             }
-            $test=new ListsController();
+            if(isset($_POST['add'])){
+                $a=new MainController();
+              $a->createStudent(); 
+           
+               $studentArray=$a->getLastStudentDetails();
+              
+               $a->insertStudentsCourses();
+               $a->insertProfilePic($studentArray['0']);
+               header("Location: ../view/schoolview.php?school=displayNewStudent&studentid=".$studentArray['0']."&studentname=".$studentArray['1']."'");
+               
+           }
+           if(isset($_POST['updatstudent'])&&isset($_GET['editstudent'])){
+            echo "some"; 
+            $a=new MainController();
+            
+            $a->updateStudent();
+            $a->insertStudentsCourses();
+            if(isset($_FILES['imgfile'])&&!empty($_FILES['imgfile']['name'])){
+            $a->uploadProfilePic();
+            }
+            header("Location: ../view/schoolview.php?school=studentdetails&studentid=". $_SESSION['studentid']."&studentname=".$_SESSION['studentname']."'");
+    }
+           //$test=new ListsController();
         
         ?>

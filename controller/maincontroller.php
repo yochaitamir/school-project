@@ -10,12 +10,13 @@ class MainController{
        
 
     }
-    
     function createStudent(){
             
-        $a=new BL();
-        $a->insertNewStudent();
+        $b=new BL();
+        $b->insertNewStudent();
     }
+    
+    
     function getStudentDetails(){
         $studentArray=[];
         $a=new BL();
@@ -150,7 +151,7 @@ function  studentsList(){
                 $filetmp=$_FILES['imgfile']['tmp_name'];
                 $tmpName = $_FILES['imgfile']['tmp_name'];
                 $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-                $destination='../images/profilepic.'.$studentId.$ext."'";
+                $destination="../images/profilepic".$studentId.".".$ext;
                 move_uploaded_file($_FILES['imgfile']['tmp_name'], $destination);
                 //move_uploaded_file($_FILES['imgfile']['tmp_name'], "../images/profilepic.$_SESSION['studentid']$ext.");
                 $a->insertProfilepicName($destination,$studentId);

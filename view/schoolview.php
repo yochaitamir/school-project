@@ -3,7 +3,7 @@
         include_once "header.php";
         ?>
         
-        <form method="get" action="../view/schoolview.php">
+        
 
             <div class=addbuttons>
                 <label>Courses</label>
@@ -15,21 +15,42 @@
             </div>
                 <br>
             </div>
-        </form>
+        
         <div class="menu">
             <div class="list">
                 <?php
-                
-                $list=new ListsController();
-                $list->courseLists();
+                function courseLists(){
+                    if(isset($_GET['school'])||isset($_GET['editstudent'])){
+                        $a=new MainController();
+                        foreach($a->courseList() as $courses){
+                            echo "<a href=../view/schoolview.php?school=coursedetails&courseid=".$courses['courseid']."&coursename=".$courses['coursename'].">".$courses['coursename']."</a><br>";
+                        
+                                }
+                                }
+                    
+                    
+                            }
+                // $list=new ListsController();
+                courseLists();
                 
             ?>
             </div>
             <div class="list">
             <?php
+            function studentList(){
+                if(isset($_GET['school'])||isset($_GET['editstudent'])){
+                    $a=new MainController();
+                    foreach($a->studentsList() as $student){
+                        echo "<a href=../view/schoolview.php?school=studentdetails&studentid=".$student['ID']."&studentname=".$student['studentname'].">".$student['studentname']."</a><br>";
+                    
+                            }
+                    
+                            }
+                
+                        }
             
-                $list=new ListsController();
-                $list->studentList();
+                // $list=new ListsController();
+               studentList();
             
             ?>  
 
