@@ -5,7 +5,7 @@ class MainController{
 
 
     function __construct(){
-      
+     
         
        
 
@@ -13,13 +13,18 @@ class MainController{
     function createStudent(){
             
         $b=new BL();
+       
         $b->insertNewStudent();
     }
-    
+    function deleteStudent($studentId){
+        $a=new BL();
+        $a->deleteStudent($studentId);
+    }    
     
     function getStudentDetails(){
         $studentArray=[];
         $a=new BL();
+        if($a->getStudentDetail($_SESSION['studentid'])){
         //$a->getStudentDetails($_SESSION['studentid']);
         foreach($a->getStudentDetail($_SESSION['studentid']) as $student){
             array_push($studentArray,$student['ID'],$student['studentname'],$student['phone'],$student['email']);
@@ -28,10 +33,14 @@ class MainController{
 
         }
     }
-    function rowCount(){
-        $a=new BL();
-        $a->rowCount(); 
-    }
+else{
+
+} return array();
+}
+    // function rowCount(){
+    //     $a=new BL();
+    //     $a->rowCount(); 
+    // }
     function getLastStudentDetails(){
          $studentArray=[];
          $a=new BL();
@@ -47,31 +56,49 @@ class MainController{
 function  studentsList(){
     $a=new BL();
      return $a->studentsList();
-    
-    
-
+    }
+    function getLastcourseDetails(){
+        $a=new BL();
+        foreach($a->getLastcourseDetails() as $course){
+            $_SESSION['courseid']=$course['ID'];
+            return $_SESSION['courseid'];
+        }
     }
     function courseList(){
                 $a=new BL();
       return    $a-> courseList();  
     }
+    function insertNewCourse(){
+        $a=new BL();
+        $a->insertNewCourse();
+    }
+    function updateCourseValues(){
+        $a=new BL();
+        $a->updateCourseValues();
+    }
     
     function getCourseDetails(){
         $a=new BL();
-        $stu=$a->getCourseDetail($_GET['courseid']);
-        foreach($stu as $requestedStudent){
-            echo $requestedStudent['courseid']."<br>";
-            echo  $requestedStudent['coursename'];
-            
-         }
+        $courses=$a->getCourseDetails($_SESSION['courseid']);
+        return $courses;
+        
         }
         function getStudentsCourses(){
             $student=$_GET['studentid'];
             $a=new BL();
             foreach($a->getStudentsCourses($student) as $courses){
-                echo $courses['courseid']."<br>";
+                $s= $courses['courseid'];
+                $this->getCourseById($s);
+                
             }
             } 
+            function getCourseById($s){
+                $a=new BL();
+                $courseName=$a->getCourseById($s);
+                foreach($courseName as $courseToDisplay){
+                   echo $courseToDisplay['coursename'].'<br>';
+                }
+            }
             function updateStudent(){
                 $a=new BL();
                 $a->updateStudent();
@@ -79,6 +106,7 @@ function  studentsList(){
             }
             function isChecked($coursechecked){
                 $a=new BL();
+                if(!isset($_GET['school'])){
                 $courses=$a->getStudentsCourses($_SESSION['studentid']);
                 foreach($courses as $course){
                     if($course['courseid']==$coursechecked){
@@ -86,7 +114,7 @@ function  studentsList(){
                     }
 
                 }
-        }
+        }}
          function insertStudentsCourses(){
             
             $a=new BL();
@@ -100,6 +128,10 @@ function  studentsList(){
                 }
           }
         }
+        }
+        function deleteCourse(){
+            $a=new BL();
+            $a->deleteCourse();
         }
         
             function uploadProfilePic(){

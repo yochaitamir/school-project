@@ -1,5 +1,5 @@
 
-        <?php
+        <?php 
         include_once "header.php";
         ?>
         
@@ -7,7 +7,7 @@
 
             <div class=addbuttons>
                 <label>Courses</label>
-                <a href="../view/schoolview.php?school=school">+</a>
+                <a href="../view/schoolview.php?school=school&course=addcourse">+</a>
             </div>
             <div class=addbuttons>
                 <label>students</label>
@@ -17,13 +17,13 @@
             </div>
         
         <div class="menu">
-            <div class="list">
+            <div class="list" >
                 <?php
                 function courseLists(){
                     if(isset($_GET['school'])||isset($_GET['editstudent'])){
                         $a=new MainController();
                         foreach($a->courseList() as $courses){
-                            echo "<a href=../view/schoolview.php?school=coursedetails&courseid=".$courses['courseid']."&coursename=".$courses['coursename'].">".$courses['coursename']."</a><br>";
+                            echo "<a href=../view/schoolview.php?school=coursedetails&courseid=".$courses['ID']."&coursename=".$courses['coursename'].">".$courses['coursename']."</a><br>";
                         
                                 }
                                 }
@@ -59,6 +59,7 @@
         <div class="maincontainer">
             
             <?php
+          
           $a= new Router();
           $a->mainContainerRouter();
 

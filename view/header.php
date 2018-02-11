@@ -1,7 +1,15 @@
 <?php
 session_start();
-include_once "../controller/maincontroller.php";
+
+//include_once "../controller/maincontroller.php";
+
 include_once "../controller/router.php";
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $a= new Router();
+        $a->mainContainerRouter();
+        exit;
+      }
+        
 include_once "classes.php";
 ?>
 
@@ -14,18 +22,15 @@ include_once "classes.php";
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" type="text/css" href="../assets/main.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <style type="text/css">
-.thumb-image{
-    float:left;width:100px;
-    
- position:relative;
- padding:5px;
-}
-#image-holder{
-    width:200px;
-    height:300px;
-}
-</style>
+                <style>
+                
+         
+        
+        
+
+
+
+        </style>
         
         <title>Document</title>
     </head>
@@ -65,6 +70,7 @@ $(document).ready(function() {
       });
 </script>
         maneger you are in
+        <div class=header>
         <div class="clear logo">
             <img class="floatleft" src="../images/images.jpg" width=200px height=150px>
             <span class="floatleft">|</span>
@@ -78,6 +84,7 @@ echo $_SESSION['user']."   ". $_SESSION['role'];
 
 
 ?>
+</div>
             </div>
         </div>
         <hr>

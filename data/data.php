@@ -11,7 +11,7 @@
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                  
                 $resultsArray = $conn->query($sql);
-                $conn->exec($sql);
+                //$conn->exec($sql);
                 
                 return $resultsArray;
                 
