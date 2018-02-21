@@ -3,19 +3,20 @@ include_once "data.php";
 class BL{
     function login($userName,$password){
 $data= new Data();
-$user=$data->fetch('SELECT * FROM `users` WHERE username="'.$userName.'" AND password="'.$password.'"');
+$user=$data->fetch('SELECT * FROM `users` WHERE useremail="'.$userName.'" AND password="'.$password.'"');
 
-if($user->rowCount()>0){
-    foreach($user as $role){
-    if(isset($role['role'])){
-        header('Location: ../view/schoolview.php?school=school');
-        $_SESSION['role']=$role['role'];
+foreach($user as $use){
+    if($use['useremail']==$userName&&$use['password']==$password){
+    
+        $_SESSION['role']=$use['rolename'];
         $_SESSION['user']=$userName;
+        header('Location: ../view/schoolview.php?school=school');
+        
        
         }   
         }
     }
-    }
+    
     function insertNewStudent(){
       
         // $p=new MainController();
@@ -131,8 +132,55 @@ if($user->rowCount()>0){
         $data->fetch('DELETE FROM `courses` WHERE `ID`="'.$_SESSION['courseid'].'"');
         
     }
+    function adminList(){
+        $data= new Data();
+        $users=$data->fetch('SELECT `id`, `useremail`, `password`, `role`, `rolename`, `profilepic`, `username`, `userphone` FROM `users`');
+       return $users;
+    }
+    function getUser(){
+        $data= new Data();
+        $user=$data->fetch('SELECT `id`, `useremail`, `password`, `role`, `rolename`, `profilepic`, `username`, `userphone` FROM `users` WHERE `id`="'.$_SESSION['userid'].'"');
+       return $user;
+    }
+    function updateUser(){
+     
+        $data= new Data();
+        $data->fetch('UPDATE `users` SET `useremail`="'.$_POST['usersemail'].'",`username`="'.$_POST['usersName'].'",`userphone`="'.$_POST['usersPhone'].'",`rolename`="'.$_POST['role'].'" WHERE `id`="'.$_SESSION['userid'].'"');
+
+
+    }
+    function insertUser(){
+        $data= new Data();
+        $data->fetch('INSERT INTO `users`( `useremail`, `password`, `rolename`, `username`, `userphone`) VALUES ("'.$_POST['usersemail'].'","'.$_POST['userspassword'].'","'.$_POST['role'].'","'.$_POST['usersName'].'","'.$_POST['usersPhone'].'")');
+
+    }
+    function getLastUser(){
+        $data= new Data();
+        $user=$data->fetch("SELECT `id` FROM `users` WHERE id = (SELECT MAX(id) FROM `users`)");
+        return $user;
+
+    }
+    function insertProfilepicUserName($destination,$a){
+        $data= new Data();
+        $data->fetch("UPDATE `users` SET `profilepic`='".$destination."' WHERE `id`='".$a."'");
+
+    }
+    function deleteUser(){
+        $data= new Data();
+        $data->fetch("DELETE FROM `users` WHERE `id`='".$_SESSION['userid']."'");
+
+    }
+
+
+}    // function insertUser(){
+    //     $data= new Data();
+    //     $data->fetch('INSERT INTO `users`(  `userphone`) VALUES ('".$_POST['usersPhone'].'")');
+
+    // }
+   
+    
     
    
 
-}
+
 ?>

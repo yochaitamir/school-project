@@ -2,11 +2,19 @@
 session_start();
 
 //include_once "../controller/maincontroller.php";
-
+//include_once "../controller/adminrouter.php";
 include_once "../controller/router.php";
-      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      if ($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['school'])||($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['editstudent']))) {
         $a= new Router();
         $a->mainContainerRouter();
+         
+        exit;
+      }
+      elseif ($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['edituser'])) {
+        include_once "../controller/adminrouter.php";
+        $a= new AdminRouter();
+        $a->router();
+        
         exit;
       }
         
@@ -69,21 +77,31 @@ $(document).ready(function() {
         });
       });
 </script>
-        maneger you are in
+        
         <div class=header>
         <div class="clear logo">
             <img class="floatleft" src="../images/images.jpg" width=200px height=150px>
             <span class="floatleft">|</span>
             <form method="GET" action="">
-                <input class="floatleft" type="submit" name="school" value="school">|
-                <?php if($_SESSION['role']<2){echo '<input type="submit" name="administration" value="administration">|';}?>
+                <input class="floatleft" type="submit" name="school1" value="school">|
+                <?php if($_SESSION['role']=='owner'||$_SESSION['role']=='manager'){echo '<input type="submit" name="administration" value="administration">|';}?>
             </form>
             <div class="right">
                 <?php
-echo $_SESSION['user']."   ". $_SESSION['role'];
-
-
+              echo $_SESSION['user']."   ". $_SESSION['role'];
+              if(isset($_GET['logout'])){
+              header("Location: ../view/index.php");
+              }
+              if(isset($_GET['school1'])){
+                header("Location: ../view/schoolview.php?school=school");
+              }
+              if(isset($_GET['administration'])){
+              header("Location: ../view/adminview.php");
+}
 ?>
+<form method=get action="">
+<input type=submit name=logout value=logout>
+</form>
 </div>
             </div>
         </div>

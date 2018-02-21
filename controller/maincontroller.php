@@ -151,7 +151,7 @@ function  studentsList(){
          
             list($width, $height, $type, $attr) = getimagesize("../images/check.$ext"); 
 
-            if($width>1000 || $height>1000) 
+            if($width>2000 || $height>2000) 
             { 
             echo "exceeded image dimension limits.";
             return; 
@@ -159,12 +159,19 @@ function  studentsList(){
             //    //$extension = image_type_to_extension($path);
                 //  echo $width."<br>";
                 //  echo $height;
-            
+                $a=new BL();
             //$ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            if(isset($_POST['updateuser'])){
+                $fileDestination="../images/usersprofilepic".$_SESSION['userid'].".".$ext;
+                $a->insertProfilepicUserName($fileDestination,$_SESSION['userid']);
+                copy("../images/check.$ext",$fileDestination);
+            }else{
              $fileDestination="../images/profilepic".$_SESSION['studentid'].".".$ext;
-             copy("../images/check.$ext",$fileDestination);
-             $a=new BL();
              $a->insertProfilepicName($fileDestination,$_SESSION['studentid']);
+            }
+             copy("../images/check.$ext",$fileDestination);
+             
+             
             // echo $ext."<br>";
             // if(file_exists("../images/profilepic".$_SESSION['studentid'].".".$ext)) {
             //     chmod($fileDestination,0755); //Change the file permissions if allowed
@@ -175,21 +182,46 @@ function  studentsList(){
             return $fileDestination;
     
 }
-            function insertProfilePic($studentId){
-                $a=new BL();
-                $studentArray=$this->getLastStudentDetails();
-                $file=$_FILES['imgfile'];
-                $fileName=$_FILES['imgfile']['name'];
-                $filetmp=$_FILES['imgfile']['tmp_name'];
-                $tmpName = $_FILES['imgfile']['tmp_name'];
-                $ext = pathinfo($fileName, PATHINFO_EXTENSION);
-                $destination="../images/profilepic".$studentId.".".$ext;
-                move_uploaded_file($_FILES['imgfile']['tmp_name'], $destination);
-                //move_uploaded_file($_FILES['imgfile']['tmp_name'], "../images/profilepic.$_SESSION['studentid']$ext.");
+        //     function insertProfilePic($studentId){
+        //         $a=new BL();
+        //         $studentArray=$this->getLastStudentDetails();
+        //         $file=$_FILES['imgfile'];
+        //         $fileName=$_FILES['imgfile']['name'];
+        //         $filetmp=$_FILES['imgfile']['tmp_name'];
+        //         $tmpName = $_FILES['imgfile']['tmp_name'];
+        //         $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+        //         $destination="../images/profilepic".$studentId.".".$ext;
+        //         move_uploaded_file($_FILES['imgfile']['tmp_name'], $destination);
+        //         //move_uploaded_file($_FILES['imgfile']['tmp_name'], "../images/profilepic.$_SESSION['studentid']$ext.");
+        //         $a->insertProfilepicName($destination,$studentId);
+        //         //return $destination;
+        //     }
+        // }
+        function insertProfilePic($studentId){
+            $a=new BL();
+            $studentArray=$this->getLastStudentDetails();
+            $file=$_FILES['imgfile'];
+            $fileName=$_FILES['imgfile']['name'];
+            $filetmp=$_FILES['imgfile']['tmp_name'];
+            $tmpName = $_FILES['imgfile']['tmp_name'];
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            if(isset($_POST['adduser'])){
+                $destination="../images/usersprofilepic".$studentId.".".$ext;
+            }else{
+            $destination="../images/profilepic".$studentId.".".$ext;
+               }
+            move_uploaded_file($_FILES['imgfile']['tmp_name'], $destination);
+            //move_uploaded_file($_FILES['imgfile']['tmp_name'], "../images/profilepic.$_SESSION['studentid']$ext.");
+            
+            if(isset($_POST['adduser'])){
+                
+                $a->insertProfilepicUserName($destination,$studentId);
+            }else{
                 $a->insertProfilepicName($destination,$studentId);
-                //return $destination;
-            }
+               }
+            //return $destination;
         }
+    }
  
 
 

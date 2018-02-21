@@ -119,7 +119,7 @@
                         
                         header("Location: ../view/schoolview.php?school=displaynewcourse&courseid=".$_SESSION['courseid']); 
                     }
-                    elseif($_GET['school']=='displaynewcourse'&&!isset($_POST['editcourse'])){
+                    elseif(isset($_GET['school'])&&$_GET['school']=='displaynewcourse'&&!isset($_POST['editcourse'])){
                         echo "update13";
                         $a=new MainController();
                         $a->getLastcourseDetails();
