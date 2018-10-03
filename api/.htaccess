@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+#check if mod_rewrite is enabled -->  <?php phpinfo(); ?>
+RewriteEngine on
+#RewriteRule ^about$ api.php [NC]
+# [NC] is a flag for ignore capital letters
+#RewriteRule "index.html" "api.php"
+#RewriteRule ^shirt/summer$ api.php?item=shirt&season=summer
+# consts depth of 3 vars
+RewriteRule ^([A-Za-z0-9]+)$ api.php?school=$1 [NC]
+#dynamic URI depth
+#RewriteRule ^([A-Za-z0-9]+)$ api/api.php?school=$1 [NC]
+</IfModule>

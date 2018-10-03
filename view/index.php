@@ -32,15 +32,11 @@ session_start();
 </body>
 </html>
 <?php
-if(isset($_POST['loginsubmit'])){
+if (isset($_POST['loginsubmit'])) {
     $userName=$_POST['name'];
     $password=$_POST['password'];
     $bl= new BL();
-    $bl->login($userName,$password);
-
-
-    
-
+    $bl->login($userName, $password);
 }
 
 

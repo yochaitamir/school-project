@@ -1,21 +1,28 @@
 
         <?php 
         include_once "header.php";
+        if(!isset($_SESSION['role'])){
+            header("Location: ../view/index.php");
+            return; 
+        }
         ?>
         
         
 
             <div class=addbuttons>
                 <label>Courses</label>
-                <a href="../view/schoolview.php?school=school&course=addcourse">+</a>
-            </div>
+                <?php 
+                if($_SESSION['role']!='sales'){
+                echo '<a href="../view/schoolview.php?school=school&course=addcourse">+</a>';
+                }?>
+                </div>
             <div class=addbuttons>
                 <label>students</label>
                 <a href="../view/schoolview.php?school=addstudent">+</a>
             </div>
                 <br>
             </div>
-        
+           
         <div class="menu">
             <div class="list" >
                 <?php

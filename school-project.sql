@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2018 at 04:43 PM
+-- Generation Time: Mar 12, 2018 at 12:30 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 5.6.32
 
@@ -29,17 +29,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `courses` (
-  `courseid` int(10) NOT NULL,
-  `coursename` varchar(50) COLLATE utf8_bin NOT NULL
+  `ID` int(10) NOT NULL,
+  `coursename` varchar(50) COLLATE utf8_bin NOT NULL,
+  `description` varchar(500) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`courseid`, `coursename`) VALUES
-(1, 'english'),
-(2, 'litrature');
+INSERT INTO `courses` (`ID`, `coursename`, `description`) VALUES
+(38, 'english', 'good'),
+(39, 'hebrew', 'all kinds of hebrew words');
 
 -- --------------------------------------------------------
 
@@ -51,6 +52,18 @@ CREATE TABLE `studentcourse` (
   `studentid` int(10) NOT NULL,
   `courseid` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Dumping data for table `studentcourse`
+--
+
+INSERT INTO `studentcourse` (`studentid`, `courseid`) VALUES
+(932, 38),
+(933, 38),
+(933, 39),
+(936, 38),
+(935, 38),
+(940, 38);
 
 -- --------------------------------------------------------
 
@@ -71,28 +84,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`ID`, `studentname`, `phone`, `email`, `profilepic`) VALUES
-(797, 'gSD4', '46', 'p', ''),
-(798, 'gSD4', '46', 'h', '../images/profilepic798.jpg'),
-(801, 'gSDd', '0506716196', 'hfd', ''),
-(802, 'gSDd', '0506716196', 'hfd', '../images/profilepic802.jpg'),
-(805, 'dfh', '46', 'hdz', ''),
-(806, 'dfh', '46', 'hdz', '../images/profilepic806.jpg'),
-(813, 'gSD', '0506716196', 'hdf', ''),
-(814, 'gSD', '0506716196', 'hdf', '../images/profilepic814.jpg'),
-(817, 'hrz', '64', 'zher', ''),
-(818, 'hrz', '64', 'zher', '../images/profilepic818.jpg'),
-(825, 'erh', '0506716196', '463', ''),
-(826, 'erh', '0506716196', '463', ''),
-(831, 'shane', '0506716196', '5', ''),
-(832, 'shane', '0506716196', '5', ''),
-(835, 'dhf', '0506716196', 'dzh', ''),
-(836, 'dhf', '0506716196', 'dzh', ''),
-(841, 'trt', '675', 'srtu', ''),
-(842, 'trt', '675', 'srtu', ''),
-(847, 'hr', '56', 'zdhr', ''),
-(848, 'hr', '56', 'zdhr', '../images/profilepic848.jpg'),
-(859, 're', '46', 'zdhf', ''),
-(860, 're', '46', 'zdhf', '../images/profilepic860.jpg');
+(938, 'tamirl', '346', '@ddd', '../images/profilepic938.jpg'),
+(939, 'yochai tamir', '0506716196', 'yoyocooljmsmith@gmail.com', '../images/profilepic939.jpg');
 
 -- --------------------------------------------------------
 
@@ -102,18 +95,25 @@ INSERT INTO `students` (`ID`, `studentname`, `phone`, `email`, `profilepic`) VAL
 
 CREATE TABLE `users` (
   `id` int(10) NOT NULL,
-  `username` varchar(50) COLLATE utf8_bin NOT NULL,
+  `useremail` varchar(50) COLLATE utf8_bin NOT NULL,
   `password` varchar(250) COLLATE utf8_bin NOT NULL,
-  `role` int(1) NOT NULL
+  `role` int(1) NOT NULL,
+  `rolename` varchar(50) COLLATE utf8_bin NOT NULL,
+  `profilepic` varchar(50) COLLATE utf8_bin NOT NULL,
+  `username` varchar(50) COLLATE utf8_bin NOT NULL,
+  `userphone` varchar(50) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
-(1, 'yochai@gmail.com', 'some', 1),
-(2, 'yoav@gmail.com', 'yoav', 3);
+INSERT INTO `users` (`id`, `useremail`, `password`, `role`, `rolename`, `profilepic`, `username`, `userphone`) VALUES
+(57, 'yoav@gmail.com', 'diana', 0, 'owner', '../images/usersprofilepic57.jpg', 'diana', '67890'),
+(59, 'ernest@gmail.com', 'ern', 0, 'manager', '../images/usersprofilepic59.jpg', 'ernest12', '634'),
+(64, 'yochai@gmail.com', 'tomy', 0, 'sales', '../images/usersprofilepic64.jpg', 'yochais', '346'),
+(92, 'yovchai@gmail.com', 'tomy', 0, 'manager', '../images/usersprofilepic92.jpg', 'sd;lk', '0341958'),
+(97, 'yomchai@gmail.com', 'sdV', 0, 'manager', '../images/usersprofilepic97.jpg', 'GS', '546');
 
 --
 -- Indexes for dumped tables
@@ -123,14 +123,14 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
-  ADD PRIMARY KEY (`courseid`);
+  ADD PRIMARY KEY (`ID`);
 
 --
 -- Indexes for table `studentcourse`
 --
 ALTER TABLE `studentcourse`
-  ADD KEY `studentexist` (`studentid`),
-  ADD KEY `coursetexist` (`courseid`);
+  ADD KEY `studentincours` (`studentid`),
+  ADD KEY `studentincourse` (`courseid`);
 
 --
 -- Indexes for table `students`
@@ -142,7 +142,8 @@ ALTER TABLE `students`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `useremail` (`useremail`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -152,19 +153,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `courseid` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=861;
+  MODIFY `ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=941;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
 
 --
 -- Constraints for dumped tables
@@ -174,8 +175,7 @@ ALTER TABLE `users`
 -- Constraints for table `studentcourse`
 --
 ALTER TABLE `studentcourse`
-  ADD CONSTRAINT `coursetexist` FOREIGN KEY (`courseid`) REFERENCES `courses` (`courseid`),
-  ADD CONSTRAINT `studentexist` FOREIGN KEY (`studentid`) REFERENCES `students` (`ID`);
+  ADD CONSTRAINT `studentincourse` FOREIGN KEY (`courseid`) REFERENCES `courses` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

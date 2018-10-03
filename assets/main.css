@@ -3,6 +3,7 @@ body{
 }
 .header{
     background-color: rgb(218, 192, 243);
+    height:150px;
 }
 .topformtest {
     overflow: auto;
@@ -187,6 +188,11 @@ textarea{
 }
 .profilepic{
     width:100px;
+    
+ padding:5px;
+ }
+ .profilepic1{
+    width:30px;
     
  padding:5px;
  

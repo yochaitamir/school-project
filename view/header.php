@@ -5,17 +5,16 @@ session_start();
 //include_once "../controller/adminrouter.php";
 include_once "../controller/router.php";
       if ($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['school'])||($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['editstudent']))) {
-        $a= new Router();
-        $a->mainContainerRouter();
+          $a= new Router();
+          $a->mainContainerRouter();
          
-        exit;
-      }
-      elseif ($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['edituser'])) {
-        include_once "../controller/adminrouter.php";
-        $a= new AdminRouter();
-        $a->router();
+          exit;
+      } elseif ($_SERVER['REQUEST_METHOD'] === 'POST'&&isset($_GET['edituser'])) {
+          include_once "../controller/adminrouter.php";
+          $a= new AdminRouter();
+          $a->router();
         
-        exit;
+          exit;
       }
         
 include_once "classes.php";
@@ -84,22 +83,29 @@ $(document).ready(function() {
             <span class="floatleft">|</span>
             <form method="GET" action="">
                 <input class="floatleft" type="submit" name="school1" value="school">|
-                <?php if($_SESSION['role']=='owner'||$_SESSION['role']=='manager'){echo '<input type="submit" name="administration" value="administration">|';}?>
+                <?php if ($_SESSION['role']=='owner'||$_SESSION['role']=='manager') {
+    echo '<input type="submit" name="administration" value="administration">|';
+}?>
             </form>
             <div class="right">
                 <?php
-              echo $_SESSION['user']."   ". $_SESSION['role'];
-              if(isset($_GET['logout'])){
-              header("Location: ../view/index.php");
+              echo $_SESSION['user']."<br>". $_SESSION['role'];
+              echo '</div>';
+              echo '<div class="right">';
+              echo '<img class="profilepic1" src="'.$_SESSION['profileimg'].'">';
+              echo '</div>';
+              if (isset($_GET['logout'])) {
+                  header("Location: ../view/index.php");
               }
-              if(isset($_GET['school1'])){
-                header("Location: ../view/schoolview.php?school=school");
+              if (isset($_GET['school1'])) {
+                  header("Location: ../view/schoolview.php?school=school");
               }
-              if(isset($_GET['administration'])){
-              header("Location: ../view/adminview.php");
-}
+              if (isset($_GET['administration'])) {
+                  header("Location: ../view/adminview.php");
+              }
 ?>
-<form method=get action="">
+</div>
+<form class="floatright" method=get action="">
 <input type=submit name=logout value=logout>
 </form>
 </div>
